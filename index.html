@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gods Of Terror</title>
+    <style>
+        /* General styles */
+        @font-face {
+            font-family: 'CustomFont';
+            src: url('font.ttf') format('truetype');
+        }
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+            background: black;
+            color: #ff0000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        .glowing-text {
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.25), 0 0 10px rgba(255, 0, 0, 0.25), 0 0 15px rgba(255, 0, 0, 0.25), 0 0 20px rgba(255, 0, 0, 0.25), 0 0 25px rgba(255, 0, 0, 0.25), 0 0 30px rgba(255, 0, 0, 0.25), 0 0 35px rgba(255, 0, 0, 0.25);
+        }
+
+        /* Overlay styles */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+        .overlay p {
+            font-size: 2rem;
+            cursor: pointer;
+            animation: blink 1s step-start infinite;
+            color: #ff0000;
+        }
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Main content container */
+        .container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: black;
+            height: 100%;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .floating-letters {
+            font-family: 'CustomFont', sans-serif;
+            font-size: 5rem;
+            font-weight: bold;
+            letter-spacing: 1rem;
+            animation: float 3s ease-in-out infinite;
+            color: #ff0000;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.5), 0 0 10px rgba(255, 0, 0, 0.5), 0 0 15px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.5), 0 0 25px rgba(255, 0, 0, 0.5);
+        }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        .content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Profile box styling */
+        .member-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .member {
+            width: 200px;
+            height: 400px;
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        .profile {
+            width: 150px;
+            height: 150px;
+            background-color: black;
+            border: 2px solid; /* Removed color to set dynamically */
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .username {
+            font-size: 1rem;
+            margin-top: 10px;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+        }
+        .username::before {
+            content: attr(data-username); /* Use data attribute for username display */
+            position: absolute;
+            top: 0;
+            left: 50%; /* Center the text */
+            transform: translateX(-50%);
+            text-align: center;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 0, 0, 0.5);
+            color: inherit; /* Inherit text color from parent */
+        }
+        .username:hover::before {
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.5), 0 0 15px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.5), 0 0 25px rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Specific username colors */
+        .username.carson::before {
+            color: #9370DB; /* Lavender Purple */
+        }
+        .username.carson:hover::before {
+            text-shadow: 0 0 5px rgba(147, 112, 219, 0.5), 0 0 10px rgba(147, 112, 219, 0.5), 0 0 15px rgba(147, 112, 219, 0.5), 0 0 20px rgba(147, 112, 219, 0.5), 0 0 25px rgba(147, 112, 219, 0.5);
+        }
+        .username.twenty-two::before {
+            color: #FF2D00; /* Bright Red */
+        }
+        .username.twenty-two:hover::before {
+            text-shadow: 0 0 5px rgba(255, 45, 0, 0.5), 0 0 10px rgba(255, 45, 0, 0.5), 0 0 15px rgba(255, 45, 0, 0.5), 0 0 20px rgba(255, 45, 0, 0.5), 0 0 25px rgba(255, 45, 0, 0.5);
+        }
+        .username.purgatory::before {
+            color: #0000FF; /* Blue */
+        }
+        .username.purgatory:hover::before {
+            text-shadow: 0 0 5px rgba(0, 0, 255, 0.5), 0 0 10px rgba(0, 0, 255, 0.5), 0 0 15px rgba(0, 0, 255, 0.5), 0 0 20px rgba(0, 0, 255, 0.5), 0 0 25px rgba(0, 0, 255, 0.5);
+        }
+        .username.fx8::before {
+            color: #FF8E00; /* Orange */
+        }
+        .username.fx8:hover::before {
+            text-shadow: 0 0 5px rgba(255, 142, 0, 0.5), 0 0 10px rgba(255, 142, 0, 0.5), 0 0 15px rgba(255, 142, 0, 0.5), 0 0 20px rgba(255, 142, 0, 0.5), 0 0 25px rgba(255, 142, 0, 0.5);
+        }
+        .username.ace::before {
+            color: #FF69B4; /* Pink */
+        }
+        .username.ace:hover::before {
+            text-shadow: 0 0 5px rgba(255, 105, 180, 0.5), 0 0 10px rgba(255, 105, 180, 0.5), 0 0 15px rgba(255, 105, 180, 0.5), 0 0 20px rgba(255, 105, 180, 0.5), 0 0 25px rgba(255, 105, 180, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay" onclick="removeOverlay()">
+        <p>Click to Enter</p>
+    </div>
+
+    <div class="container" id="main-content">
+        <div class="floating-letters glowing-text">Gods Of Terror</div>
+
+        <div class="content">
+            <div class="member-container">
+                <!-- Member 1 -->
+                <div class="member">
+                    <div class="profile" style="border-color: #FF8E00;">
+                        <img id="profile-img-7fx8" src="https://cdn.discordapp.com/avatars/1235727629571854428/3c6cc0b42dc5a78857f27ac668ebdeee.webp?size=1024&format=webp&width=0&height=256" alt="Profile 1">
+                    </div>
+                    <a href="https://t.me/EgirlExtortion" class="username fx8" target="_blank" data-username="7fx8">fx8</a>
+                </div>
+
+                <!-- Member 2 -->
+                <div class="member">
+                    <div class="profile" style="border-color: #9370DB;">
+                        <img id="profile-img-carson" src="https://cdn.discordapp.com/avatars/954941618971082792/fc9a60ba4ce0952193e0f3f3c5f8cd62.webp?size=1024&format=webp&width=0&height=256" alt="Profile 2">
+                    </div>
+                    <a href="https://medal.tv/u/carson08" class="username carson" target="_blank" data-username="Carson">Carson</a>
+                </div>
+
+                <!-- Member 3 -->
+                <div class="member">
+                    <div class="profile" style="border-color: #0000FF;">
+                        <img id="profile-img-purgatory" src="https://cdn.discordapp.com/avatars/795119470167326760/2d82aeade14140d9d29867712b33f05e.webp?size=1024&format=webp&width=0&height=256" alt="Profile 3">
+                    </div>
+                    <a href="https://www.youtube.com/channel/UCAKpHfTFq4_DFxqtQtoEEow" class="username purgatory" target="_blank" data-username="Purgatory">Purgatory</a>
+                </div>
+
+                <!-- Member 4 -->
+                <div class="member">
+                    <div class="profile" style="border-color: #FF2D00;">
+                        <img id="profile-img-22" src="https://cdn.discordapp.com/avatars/1128029620432801832/8e976c085a8314c24f3b365f3e64baa2.webp?size=1024&format=webp&width=0&height=256" alt="Profile 4">
+                    </div>
+                    <a href="https://www.youtube.com/channel/UCgjb_TuNVLn9QQivYQ6oMgQ" class="username twenty-two" target="_blank" data-username="22">22</a>
+                </div>
+
+                <!-- Member 5 -->
+                <div class="member">
+                    <div class="profile" style="border-color: #FF69B4;">
+                        <img id="profile-img-ace" src="https://cdn.discordapp.com/avatars/1153421036075888681/19c7f3541e7c4831a34a498c60fb4a69.webp?size=1024&format=webp&width=0&height=256" alt="Profile 5">
+                    </div>
+                    <a href="https://www.tiktok.com/@ssnbbks" class="username ace" target="_blank" data-username="Ace">Ace</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function playMusic() {
+            var audio = new Audio('song.mp3');
+            audio.volume = 0.5; // Adjust volume as needed
+            audio.play();
+        }
+
+        function removeOverlay() {
+            playMusic(); // Play music when removing overlay
+            var overlay = document.getElementById('overlay');
+            var mainContent = document.getElementById('main-content');
+            overlay.style.display = 'none';
+            mainContent.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
